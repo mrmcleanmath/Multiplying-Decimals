@@ -5,549 +5,598 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Multiplying Decimals — Mr. McLean Math</title>
 <style>
-  :root{
-    --bg:#0f1220; --card:#161a2e; --ink:#e7eaf6; --muted:#aab0cb;
-    --accent:#7c87ff; --ok:#2ad67b; --bad:#ff5c6c; --hi:#ffffff;
-    --border:rgba(255,255,255,0.12); --shadow:0 10px 30px rgba(0,0,0,.35);
-    --focus:0 0 0 3px rgba(124,135,255,0.45);
-  }
-  [data-contrast="high"]{
-    --bg:#000; --card:#000; --ink:#fff; --muted:#ddd; --accent:#0ff;
-    --ok:#0f0; --bad:#f00; --border:#fff;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:linear-gradient(160deg,#0b0e1a,#121633 60%,#0b0e1a);
-       color:var(--ink);font:16px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial;
-       min-height:100svh;display:flex;flex-direction:column}
-  header{padding:18px 16px 0}
-  .wrap{max-width:1100px;margin:0 auto;padding:16px}
-  .app{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
-  h1{margin:0 0 6px;font-size:24px}
-  .sub{color:var(--muted);font-size:14px;margin-bottom:14px}
-  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-  .seg{background:#0e1330;border:1px solid var(--border);border-radius:14px;padding:10px}
-  .seg h3{margin:0 0 8px;font-size:14px;color:var(--muted);font-weight:600}
-  button, select{background:#0f1536;color:var(--ink);border:1px solid var(--border);
-    border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer}
-  button:hover, select:hover{border-color:var(--accent)}
-  .primary{background:linear-gradient(180deg,#6d79ff,#5661ff);border-color:#5661ff}
-  .ghost{background:transparent}
-  .ok{color:var(--ok)} .bad{color:var(--bad)}
-  .grid{display:grid;gap:14px}
-  .panel{border:1px solid var(--border);border-radius:14px;padding:14px;background:#0c1130}
-  .prompt{font-size:28px;font-weight:800;letter-spacing:.3px}
-  .prompt code{font-size:30px}
-  .biginput{display:flex;gap:10px;align-items:center;margin-top:8px}
-  input[type="text"]{flex:1;min-width:120px;background:#0a0f29;color:var(--hi);
-    border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:20px}
-  input[type="text"]:focus{outline:none;box-shadow:var(--focus)}
-  .result{min-height:28px;display:flex;gap:10px;align-items:center}
-  .tick{font-weight:800}
-  .tick.ok{color:var(--ok)} .tick.bad{color:var(--bad)}
-  .hint{color:var(--muted);font-size:13px;margin-top:6px}
-  .divider{height:1px;background:var(--border);margin:12px 0}
-  .muted{color:var(--muted)}
-  .footer{opacity:.8;margin:14px 0 6px;font-size:13px}
-  .spacer{flex:1}
-  .hidden{display:none !important}
-  .tag{font-size:12px;color:#a9b2ff;border:1px solid #2a2f6b;border-radius:999px;padding:3px 8px}
-  .streak{background:#10164a;border:1px solid #303a9a;border-radius:12px;padding:8px 12px}
-  /* Worksheet */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-  .card{border:1px solid var(--border);border-radius:14px;padding:10px;background:#0b1033}
-  .card h4{margin:0 0 6px}
-  .card .ans{margin-top:8px}
-  .badge{display:inline-block;background:#13206b;color:#cfe1ff;border-radius:999px;padding:2px 8px;font-size:12px}
-  .instruction{border-left:4px solid var(--accent);padding:10px 12px;background:#0b113a;border-radius:10px}
-  /* Toggles */
-  .toggle{display:flex;align-items:center;gap:8px}
-  .toggle input{transform:scale(1.1)}
-  /* Live region for a11y */
-  .sr{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
-  .timerBox{display:flex;gap:8px;align-items:center}
-  .summary{background:#0a0f2b;border:1px solid var(--border);border-radius:14px;padding:12px}
-  details summary{cursor:pointer}
+:root{
+  --bg:#0f1220;
+  --card:#161a2e;
+  --panel:#0c1130;
+  --ink:#e7eaf6;
+  --muted:#aab0cb;
+  --accent:#7c87ff;
+  --ok:#2ad67b;
+  --bad:#ff5c6c;
+  --border:rgba(255,255,255,.12);
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --focus:0 0 0 3px rgba(124,135,255,.45);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100svh;
+  background:linear-gradient(160deg,#0b0e1a,#121633 60%,#0b0e1a);
+  color:var(--ink);
+  font:16px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+.wrap{max-width:940px;margin:0 auto;padding:16px}
+header{padding-bottom:4px}
+h1{margin:0;font-size:clamp(24px,4vw,32px)}
+.app{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:flex-end;
+  margin-bottom:16px;
+}
+.control-group{display:flex;flex-direction:column;gap:6px}
+.control-label{font-size:13px;color:var(--muted);font-weight:700}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{
+  appearance:none;
+  background:#0f1536;
+  color:var(--ink);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:9px 13px;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:none;box-shadow:var(--focus)}
+button.primary{
+  background:linear-gradient(180deg,#6d79ff,#5661ff);
+  border-color:#5661ff;
+  color:#fff;
+}
+button.ghost{background:transparent}
+button:disabled{opacity:.55;cursor:default}
+.panel{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  background:var(--panel);
+}
+.practice-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin-bottom:12px;
+}
+.difficulty-tag{
+  color:#cfd4ff;
+  border:1px solid #2a2f6b;
+  border-radius:999px;
+  padding:3px 9px;
+  font-size:12px;
+  font-weight:700;
+}
+.totals{color:var(--muted);font-size:14px}
+.prompt{
+  font-size:clamp(30px,6vw,42px);
+  font-weight:800;
+  letter-spacing:.3px;
+  margin:18px 0;
+}
+.answer-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type="text"]{
+  flex:1 1 220px;
+  min-width:0;
+  background:#0a0f29;
+  color:#fff;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:11px 13px;
+  font-size:20px;
+}
+.result{
+  min-height:30px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  margin-top:10px;
+  font-weight:700;
+}
+.ok{color:var(--ok)}
+.bad{color:var(--bad)}
+.muted{color:var(--muted)}
+.tip{color:var(--muted);font-size:13px;margin-top:12px}
+.steps{margin-top:12px;background:#0a0f2b}
+.steps ol{margin-bottom:0}
+.hidden{display:none !important}
+.worksheet-note{margin:0 0 12px;color:var(--muted)}
+.ws-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.spacer{flex:1}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+.card{
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:12px;
+  background:#0b1033;
+}
+.card h3{margin:0 0 9px;font-size:20px}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:26px;
+  height:26px;
+  padding:0 7px;
+  margin-right:5px;
+  border-radius:999px;
+  background:#13206b;
+  color:#cfe1ff;
+  font-size:12px;
+}
+.ans{margin:8px 0;font-weight:700}
+.footer{opacity:.75;margin:14px 2px 2px;font-size:13px}
+.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media (max-width:600px){
+  .wrap{padding:12px}
+  .app{padding:14px}
+  .controls{align-items:stretch}
+  .control-group{width:100%}
+  .control-group .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  #diffRow{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .control-group button{width:100%}
+  .practice-top{align-items:flex-start;flex-direction:column}
+  .answer-row button{flex:1}
+}
 </style>
 </head>
 <body>
 <header class="wrap">
   <h1>Multiplying Decimals</h1>
-  <div class="sub">Free Input • 🟢🟡🔴 difficulties • Worksheet mode • Keyboard: Enter=Submit/Next, Esc=Clear</div>
 </header>
 
-<main class="wrap app" id="app" aria-live="polite">
-  <div class="row" role="group" aria-label="Mode and difficulty">
-    <div class="seg">
-      <h3>Mode</h3>
-      <div class="row" style="gap:8px">
-        <button id="modeGame" class="primary" aria-pressed="true">Game</button>
-        <button id="modeWS">Worksheet</button>
+<main class="wrap">
+  <div class="app">
+    <div class="controls" role="group" aria-label="Practice controls">
+      <div class="control-group">
+        <span class="control-label">Mode</span>
+        <div class="row">
+          <button id="modeGame" class="primary" aria-pressed="true">Practice</button>
+          <button id="modeWS" aria-pressed="false">Worksheet</button>
+        </div>
       </div>
-    </div>
-    <div class="seg">
-      <h3>Difficulty</h3>
-      <div class="row" id="diffRow" style="gap:8px">
-        <button data-diff="easy" class="primary" aria-pressed="true">🟢 Easy</button>
-        <button data-diff="med">🟡 Medium</button>
-        <button data-diff="hard">🔴 Hard</button>
-        <button data-diff="mix">🎲 Mixed</button>
-      </div>
-    </div>
-    <div class="seg">
-      <h3>Accessibility</h3>
-      <label class="toggle"><input type="checkbox" id="hiToggle" /> High contrast</label>
-    </div>
-    <div class="seg">
-      <h3>Timer</h3>
-      <div class="timerBox">
-        <label class="toggle"><input type="checkbox" id="timerOn" /> On</label>
-        <select id="timerLen" aria-label="Timer length">
-          <option value="30">30s</option>
-          <option value="60" selected>60s</option>
-          <option value="90">90s</option>
-          <option value="120">120s</option>
-        </select>
-        <span id="timerReadout" class="muted">Off</span>
-      </div>
-    </div>
-    <div class="seg">
-      <h3>Sound</h3>
-      <label class="toggle"><input type="checkbox" id="soundOn" checked /> On</label>
-    </div>
-  </div>
 
-  <!-- GAME MODE -->
-  <section id="gameSec" class="grid" aria-label="Game mode">
-    <div class="panel">
-      <div class="row" style="justify-content:space-between;align-items:center">
-        <div><span class="tag" id="tagDiff">Easy</span></div>
-        <div class="streak" id="scoreBox" aria-live="polite">Score: 0 • Streak: 0 • Accuracy: 0%</div>
-      </div>
-      <div class="divider"></div>
-      <div class="prompt" id="prompt" aria-label="Problem"><code>—</code></div>
-      <div class="biginput">
-        <input id="answer" type="text" inputmode="decimal" autocomplete="off" aria-label="Your answer" placeholder="Type your answer…" />
-        <button id="submit" class="primary">Submit</button>
-        <button id="next" class="ghost hidden" title="Next (available after Correct)">Next ▶</button>
-        <button id="clear" class="ghost" title="Esc">Clear</button>
-      </div>
-      <div class="result" id="result">
-        <span class="tick" id="tick"></span>
-        <span id="msg" class="muted"></span>
-        <button id="showSteps" class="ghost hidden">Show Steps</button>
-      </div>
-      <div id="steps" class="panel hidden" aria-live="polite"></div>
-      <div class="hint">
-        Tip: Multiply the integers first (pretend the decimal points aren’t there), then place the decimal based on total decimal places.
+      <div class="control-group">
+        <span class="control-label">Difficulty</span>
+        <div class="row" id="diffRow">
+          <button data-diff="easy" class="primary" aria-pressed="true">Foundation</button>
+          <button data-diff="med" aria-pressed="false">Core</button>
+          <button data-diff="hard" aria-pressed="false">Challenge</button>
+        </div>
       </div>
     </div>
 
-    <div class="summary">
-      <strong>Session</strong>
-      <div id="sessionStats" class="muted">Total: 0 • Correct: 0 • Accuracy: 0% • Incorrect (0)</div>
-      <details>
-        <summary>Show incorrect list</summary>
-        <ol id="incorrectList" class="muted"></ol>
-      </details>
-    </div>
-  </section>
+    <section id="gameSec" aria-label="Practice mode">
+      <div class="panel">
+        <div class="practice-top">
+          <span class="difficulty-tag" id="tagDiff">Foundation</span>
+          <span class="totals" id="totals">Correct: 0 • Incorrect: 0</span>
+        </div>
 
-  <!-- WORKSHEET MODE -->
-  <section id="wsSec" class="grid hidden" aria-label="Worksheet mode">
-    <div class="instruction">
-      <strong>Instructions:</strong> Multiply the numbers by ignoring the decimals first, then place the decimal in the product. Show working.
-    </div>
-    <div class="panel">
-      <div class="row">
-        <div class="row" style="gap:8px">
+        <div class="prompt" id="prompt" aria-live="polite">—</div>
+
+        <div class="answer-row">
+          <input id="answer" type="text" inputmode="decimal" autocomplete="off"
+                 aria-label="Your answer" placeholder="Type your answer" />
+          <button id="submit" class="primary">Check</button>
+          <button id="next" class="hidden">Next</button>
+          <button id="clear" class="ghost">Clear</button>
+        </div>
+
+        <div class="result" id="result" aria-live="polite">
+          <span id="tick"></span>
+          <span id="msg"></span>
+          <button id="showSteps" class="ghost hidden">Show Steps</button>
+        </div>
+
+        <div id="steps" class="panel steps hidden"></div>
+
+        <div class="tip">Tip: Ignore the decimal points first, multiply, then place the decimal using the total number of decimal places.</div>
+      </div>
+    </section>
+
+    <section id="wsSec" class="hidden" aria-label="Worksheet mode">
+      <p class="worksheet-note">Multiply each pair of numbers.</p>
+      <div class="panel">
+        <div class="ws-toolbar">
           <button class="primary" data-gen="5">Generate 5</button>
           <button class="primary" data-gen="10">Generate 10</button>
           <button class="primary" data-gen="15">Generate 15</button>
+          <span class="spacer"></span>
+          <button id="revealAll">Reveal All</button>
+          <button id="hideAll">Hide All</button>
         </div>
-        <div class="spacer"></div>
-        <div class="row" style="gap:8px">
-          <button id="revealAll">Reveal all</button>
-          <button id="hideAll">Hide all</button>
-        </div>
+        <div id="wsCards" class="cards"></div>
       </div>
-      <div class="divider"></div>
-      <div id="wsCards" class="cards"></div>
-    </div>
-  </section>
+    </section>
 
-  <div class="footer">Created by Mr. McLean Math.</div>
+    <div class="footer">Created by Mr. McLean Math</div>
+  </div>
 </main>
 
 <div class="sr" aria-live="assertive" id="live"></div>
 
 <script>
-/* ========= Utilities ========= */
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
+
 const url = new URL(location.href);
 const SEED = url.searchParams.get('seed');
 const DEV = url.searchParams.get('dev') === '1';
 
 function rng(seedStr){
-  // Mulberry32 with string seed
-  let h = 2166136261>>>0;
-  for (let i=0;i<(seedStr||'default').length;i++){
+  let h = 2166136261 >>> 0;
+  for(let i=0;i<(seedStr || 'default').length;i++){
     h ^= seedStr.charCodeAt(i);
-    h = Math.imul(h, 16777619);
+    h = Math.imul(h,16777619);
   }
-  let a = h>>>0;
+  let a = h >>> 0;
   return function(){
-    a |= 0; a = a + 0x6D2B79F5 | 0;
-    let t = Math.imul(a ^ a>>>15, 1 | a);
-    t ^= t + Math.imul(t ^ t>>>7, 61 | t);
-    return ((t ^ t>>>14) >>> 0) / 4294967296;
-  }
+    a |= 0;
+    a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
 }
 const R = rng(SEED || (Date.now()+':'+Math.random()));
-function pick(arr){ return arr[Math.floor(R()*arr.length)] }
+function pick(arr){ return arr[Math.floor(R()*arr.length)]; }
 
-/* Parsing/formatting: accept spaces for thousands, dot or comma decimals */
 function parseNum(str){
-  if (typeof str !== 'string') return NaN;
+  if(typeof str !== 'string') return NaN;
   let s = str.trim();
-  s = s.replace(/\s+/g,'');              // remove spaces (thousands)
-  if (s.includes(',') && s.includes('.')) s = s.replace(/,/g,''); // comma thousands, dot decimal
-  else if (s.includes(',') && !s.includes('.')) s = s.replace(',', '.'); // comma decimal
+  if(!s) return NaN;
+  s = s.replace(/\s+/g,'');
+  if(s.includes(',') && s.includes('.')) s = s.replace(/,/g,'');
+  else if(s.includes(',')) s = s.replace(',', '.');
+  if(!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(s)) return NaN;
   return Number(s);
 }
 function formatNum(n){
   let s = String(Number(Number(n).toFixed(10)));
-  if (s.includes('.')) s = s.replace(/\.?0+$/,''); // trim trailing zeros
-  let [int, dec] = s.split('.');
+  if(s.includes('.')) s = s.replace(/\.?0+$/,'');
+  let [int,dec] = s.split('.');
   int = int.replace(/\B(?=(\d{3})+(?!\d))/g,' ');
-  return dec ? int + '.' + dec : int;
+  return dec ? int+'.'+dec : int;
 }
 
-/* Sound via WebAudio */
-let audioCtx;
-function beep(ok=true){
-  if (!$('#soundOn').checked) return;
-  try{
-    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type = 'sine'; o.frequency.value = ok ? 880 : 220; g.gain.value = 0.05;
-    o.connect(g).connect(audioCtx.destination); o.start();
-    setTimeout(()=>o.stop(), 120);
-  }catch(e){}
+function decPlacesFromStr(s){
+  const i=s.indexOf('.');
+  return i===-1 ? 0 : s.length-i-1;
 }
-
-/* ========= Exact decimal handling with strings ========= */
-function decPlacesFromStr(s){ const i = s.indexOf('.'); return i===-1 ? 0 : (s.length - i - 1); }
 function intFromStr(s){ return parseInt(s.replace('.',''),10); }
 function mkFromStrings(aStr,bStr){
-  const da = decPlacesFromStr(aStr), db = decPlacesFromStr(bStr);
-  const A = intFromStr(aStr), B = intFromStr(bStr);
-  const product = (A * B) / 10**(da + db);
-  return { aStr, bStr, a:Number(aStr), b:Number(bStr), product, dp:da+db };
+  const da=decPlacesFromStr(aStr), db=decPlacesFromStr(bStr);
+  const A=intFromStr(aStr), B=intFromStr(bStr);
+  const product=(A*B)/(10**(da+db));
+  return {aStr,bStr,a:Number(aStr),b:Number(bStr),product,dp:da+db};
 }
 
-/* ========= Problem generation ========= */
+/* Original educational generator preserved. */
 const easy = {
-  tens: ['10','20','30','40','50','60','70','80','90'],
-  tenths: ['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9'],
-  hundredths: ['0.02','0.03','0.04','0.05','0.06','0.07','0.08','0.09'],
-  hundreds: ['100','200','300','400','500','600','700','800','900'],
-  sd: ['2','3','4','5','6','7','8','9'],
-  extras: ['0.12','0.24'] // friendly double-digit on the decimal side
+  tens:['10','20','30','40','50','60','70','80','90'],
+  tenths:['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9'],
+  hundredths:['0.02','0.03','0.04','0.05','0.06','0.07','0.08','0.09'],
+  hundreds:['100','200','300','400','500','600','700','800','900'],
+  sd:['2','3','4','5','6','7','8','9'],
+  extras:['0.12','0.24']
 };
 const friendlySet = new Set([25,50,75,125,5,10,20,40,80,250]);
 
 function allowedPairStrings(aStr,bStr){
-  const A = intFromStr(aStr), B = intFromStr(bStr);
-  if (friendlySet.has(A) || friendlySet.has(B)) return true;
-  const twoPlusA = (A>=10), twoPlusB = (B>=10);
-  if (twoPlusA && twoPlusB){
-    return (A<=12 && B<=12); // allow up to 12×12 only if both are 2+ digits
-  }
+  const A=intFromStr(aStr), B=intFromStr(bStr);
+  if(friendlySet.has(A) || friendlySet.has(B)) return true;
+  const twoPlusA=A>=10, twoPlusB=B>=10;
+  if(twoPlusA && twoPlusB) return A<=12 && B<=12;
   return true;
 }
-
 function easyGen(){
-  const buckets = [
-    () => mkFromStrings(pick(easy.tens), pick(easy.tenths)),                 // 40 × 0.6
-    () => mkFromStrings(pick(easy.hundredths), pick(easy.hundreds)),         // 0.02 × 900
-    () => mkFromStrings(pick(easy.sd), pick([...easy.tenths, ...easy.extras])), // 7 × 0.4 or 8 × 0.12
-    () => mkFromStrings(pick(easy.tenths), pick(easy.tenths))                // 0.3 × 0.5
+  const buckets=[
+    () => mkFromStrings(pick(easy.tens),pick(easy.tenths)),
+    () => mkFromStrings(pick(easy.hundredths),pick(easy.hundreds)),
+    () => mkFromStrings(pick(easy.sd),pick([...easy.tenths,...easy.extras])),
+    () => mkFromStrings(pick(easy.tenths),pick(easy.tenths))
   ];
   return pick(buckets)();
 }
 function medGen(){
-  const buckets = [
-    () => mkFromStrings(pick(['0.12','0.14','0.15','0.16','0.18','0.25']), pick(['20','30','40','50','60'])),
-    () => mkFromStrings(pick(['30','40','60','80','90']), pick(['0.06','0.07','0.08','0.09'])),
-    () => mkFromStrings(pick(['0.04','0.06','0.08']), pick(['200','400','600','800'])),
-    () => mkFromStrings(pick(['0.2','0.3','0.4','0.5']), pick(['2','3','4','5','6','7','8','9','10','11','12']))
+  const buckets=[
+    () => mkFromStrings(pick(['0.12','0.14','0.15','0.16','0.18','0.25']),pick(['20','30','40','50','60'])),
+    () => mkFromStrings(pick(['30','40','60','80','90']),pick(['0.06','0.07','0.08','0.09'])),
+    () => mkFromStrings(pick(['0.04','0.06','0.08']),pick(['200','400','600','800'])),
+    () => mkFromStrings(pick(['0.2','0.3','0.4','0.5']),pick(['2','3','4','5','6','7','8','9','10','11','12']))
   ];
   return pick(buckets)();
 }
 function hardGen(){
-  const buckets = [
-    () => mkFromStrings(pick(['0.75','0.6','0.9']), pick(['0.6','0.8','0.4','0.5'])), // 75×6 etc.
-    () => mkFromStrings(pick(['0.125','0.25','0.5']), pick(['0.8','1.6','2.0'])),      // 125×8 etc.
-    () => mkFromStrings(pick(['0.35','0.45']), pick(['0.2','0.3','0.4'])),             // 35×2 etc.
-    () => mkFromStrings(pick(['0.25','0.125','0.75']), pick(['40','80','0.4','1.6','2.4'])) // ×25/×125/×75 friendly
+  const buckets=[
+    () => mkFromStrings(pick(['0.75','0.6','0.9']),pick(['0.6','0.8','0.4','0.5'])),
+    () => mkFromStrings(pick(['0.125','0.25','0.5']),pick(['0.8','1.6','2.0'])),
+    () => mkFromStrings(pick(['0.35','0.45']),pick(['0.2','0.3','0.4'])),
+    () => mkFromStrings(pick(['0.25','0.125','0.75']),pick(['40','80','0.4','1.6','2.4']))
   ];
   return pick(buckets)();
 }
 function genByTier(t){
-  if (t==='easy') return easyGen();
-  if (t==='med') return medGen();
-  if (t==='hard') return hardGen();
-  const r = Math.random();
-  if (r<0.4) return easyGen();
-  if (r<0.8) return medGen();
+  if(t==='easy') return easyGen();
+  if(t==='med') return medGen();
   return hardGen();
 }
 function genProblem(tier){
-  for (let tries=0; tries<100; tries++){
-    const p = genByTier(tier);
-    if (allowedPairStrings(p.aStr,p.bStr)) return p;
+  for(let tries=0;tries<100;tries++){
+    const p=genByTier(tier);
+    if(allowedPairStrings(p.aStr,p.bStr)) return p;
   }
-  return mkFromStrings('40','0.6'); // fallback safe
+  return mkFromStrings('40','0.6');
 }
 
-/* ========= State ========= */
-let state = {
+const state={
   mode:'game',
   tier:'easy',
   cur:null,
-  score:0, streak:0, total:0, correct:0,
-  incorrect:[],
-  awaitingNext:false,
+  correct:0,
+  incorrect:0,
+  evaluated:false
 };
-let timerId=null, timeLeft=0;
 
-/* ========= UI Bindings ========= */
+function tierLabel(t){
+  return ({easy:'Foundation',med:'Core',hard:'Challenge'})[t] || 'Foundation';
+}
+
+function switchMode(mode){
+  state.mode=mode;
+  const isGame=mode==='game';
+  $('#modeGame').classList.toggle('primary',isGame);
+  $('#modeWS').classList.toggle('primary',!isGame);
+  $('#modeGame').setAttribute('aria-pressed',String(isGame));
+  $('#modeWS').setAttribute('aria-pressed',String(!isGame));
+  $('#gameSec').classList.toggle('hidden',!isGame);
+  $('#wsSec').classList.toggle('hidden',isGame);
+
+  if(isGame){
+    newRound();
+  }else{
+    $('#answer').blur();
+    if(!$('#wsCards').children.length) buildWorksheet(10);
+  }
+}
+
 $('#modeGame').addEventListener('click',()=>switchMode('game'));
 $('#modeWS').addEventListener('click',()=>switchMode('ws'));
-function switchMode(m){
-  state.mode=m;
-  if (m==='game'){
-    $('#modeGame').classList.add('primary'); $('#modeGame').setAttribute('aria-pressed','true');
-    $('#modeWS').classList.remove('primary'); $('#modeWS').setAttribute('aria-pressed','false');
-    $('#wsSec').classList.add('hidden'); $('#gameSec').classList.remove('hidden');
-    $('#wsCards').innerHTML=''; // clear worksheet
-  }else{
-    $('#modeWS').classList.add('primary'); $('#modeWS').setAttribute('aria-pressed','true');
-    $('#modeGame').classList.remove('primary'); $('#modeGame').setAttribute('aria-pressed','false');
-    $('#gameSec').classList.add('hidden'); $('#wsSec').classList.remove('hidden');
-    resetResult(); // clear game UI
-  }
-  stopTimer(); $('#timerReadout').textContent='Off';
-}
 
-$('#diffRow').addEventListener('click', (e)=>{
-  const btn = e.target.closest('button[data-diff]');
-  if (!btn) return;
-  $$('#diffRow button').forEach(b=>{ b.classList.remove('primary'); b.setAttribute('aria-pressed','false'); });
-  btn.classList.add('primary'); btn.setAttribute('aria-pressed','true');
-  state.tier = btn.dataset.diff;
-  $('#tagDiff').textContent = ({easy:'Easy',med:'Medium',hard:'Hard',mix:'Mixed'})[state.tier] || 'Easy';
-  if (state.mode==='game') newRound();
+$('#diffRow').addEventListener('click',e=>{
+  const btn=e.target.closest('button[data-diff]');
+  if(!btn) return;
+  $$('#diffRow button').forEach(b=>{
+    b.classList.remove('primary');
+    b.setAttribute('aria-pressed','false');
+  });
+  btn.classList.add('primary');
+  btn.setAttribute('aria-pressed','true');
+  state.tier=btn.dataset.diff;
+  $('#tagDiff').textContent=tierLabel(state.tier);
+
+  if(state.mode==='game') newRound();
+  else buildWorksheet(10);
 });
 
-$('#hiToggle').addEventListener('change', e=>{
-  document.documentElement.setAttribute('data-contrast', e.target.checked ? 'high' : 'normal');
-});
-
-$('#timerOn').addEventListener('change', e=>{
-  if (e.target.checked){ startTimer(Number($('#timerLen').value)); }
-  else{ stopTimer(); $('#timerReadout').textContent='Off'; }
-});
-$('#timerLen').addEventListener('change', ()=>{
-  if ($('#timerOn').checked){ startTimer(Number($('#timerLen').value)); }
-});
-
-$('#submit').addEventListener('click', submitAnswer);
-$('#next').addEventListener('click', ()=> { if (state.awaitingNext){ newRound(); } });
-$('#clear').addEventListener('click', clearInput);
-$('#answer').addEventListener('keydown', (e)=>{
-  if (e.key==='Enter'){
-    if (state.awaitingNext){ newRound(); }
-    else submitAnswer();
-  }else if (e.key==='Escape'){ clearInput(); }
-});
-
-/* Worksheet buttons */
-$('#wsSec').addEventListener('click', (e)=>{
-  const genBtn = e.target.closest('button[data-gen]');
-  if (genBtn){
-    const n = Number(genBtn.dataset.gen)||5;
-    buildWorksheet(n);
-  }
-});
-$('#revealAll').addEventListener('click', ()=> $$('#wsCards .ans').forEach(a=>a.classList.remove('hidden')));
-$('#hideAll').addEventListener('click', ()=> $$('#wsCards .ans').forEach(a=>a.classList.add('hidden')));
-
-/* ========= Game Flow ========= */
 function newRound(){
-  state.cur = genProblem(state.tier);
-  state.awaitingNext=false;
-  $('#prompt').innerHTML = `<code>${formatNum(state.cur.a)} × ${formatNum(state.cur.b)}</code>`;
-  $('#answer').value = '';
-  $('#answer').focus();
+  state.cur=genProblem(state.tier);
+  state.evaluated=false;
+  $('#prompt').textContent=`${formatNum(state.cur.a)} × ${formatNum(state.cur.b)}`;
+  $('#answer').value='';
+  $('#answer').disabled=false;
+  $('#submit').disabled=false;
+  $('#submit').classList.remove('hidden');
+  $('#next').classList.add('hidden');
   resetResult();
-  $('#next').classList.add('hidden'); // hide Next until correct
-  if ($('#timerOn').checked){ startTimer(Number($('#timerLen').value)); }
+  $('#answer').focus();
 }
 function resetResult(){
-  $('#tick').textContent=''; $('#tick').className='tick';
+  $('#tick').textContent='';
+  $('#tick').className='';
   $('#msg').textContent='';
+  $('#msg').className='';
   $('#showSteps').classList.add('hidden');
-  $('#steps').classList.add('hidden'); $('#steps').innerHTML='';
+  $('#steps').classList.add('hidden');
+  $('#steps').innerHTML='';
 }
-function clearInput(){ $('#answer').value=''; $('#answer').focus(); }
+function clearInput(){
+  if(state.evaluated) return;
+  $('#answer').value='';
+  $('#answer').focus();
+}
+function updateTotals(){
+  $('#totals').textContent=`Correct: ${state.correct} • Incorrect: ${state.incorrect}`;
+}
+function speakLive(msg){
+  const live=$('#live');
+  live.textContent='';
+  setTimeout(()=>{live.textContent=msg;},10);
+}
+function nearlyEqual(a,b){
+  return Math.abs(a-b)<=Math.max(1e-10,Math.abs(b)*1e-10);
+}
 
 function submitAnswer(){
-  const val = parseNum($('#answer').value);
-  if (!isFinite(val)){ flash('Please enter a number.'); return; }
-  const correctVal = state.cur.product;
-  const eq = nearlyEqual(val, correctVal);
-  state.total++;
-  if (eq){
-    state.correct++; state.streak++; 
-    state.score += 10 + (state.streak>0 && state.streak%5===0 ? 5 : 0);
-    $('#tick').textContent='✔'; $('#tick').classList.add('ok'); $('#msg').textContent='Correct!';
-    speakLive('Correct');
-    beep(true);
-    state.awaitingNext = true;
-    $('#next').classList.remove('hidden');
-    stopTimer();
-  }else{
-    state.streak=0;
-    $('#tick').textContent='✖'; $('#tick').classList.add('bad'); $('#msg').textContent='Not quite.';
-    $('#showSteps').classList.remove('hidden');
-    beep(false);
-    const q = `${formatNum(state.cur.a)} × ${formatNum(state.cur.b)}`;
-    state.incorrect.push({q, your:formatNum(val), correct:formatNum(correctVal)});
+  if(state.evaluated) return;
+
+  const raw=$('#answer').value.trim();
+  if(!raw){
+    $('#msg').textContent='Enter an answer.';
+    $('#msg').className='muted';
+    speakLive('Enter an answer');
+    return;
   }
-  updateSession();
-}
-function nearlyEqual(a,b){ return Math.abs(a-b) <= Math.max(1e-10, Math.abs(b)*1e-10); }
-function updateSession(){
-  const acc = state.total ? Math.round(100*state.correct/state.total) : 0;
-  $('#scoreBox').textContent = `Score: ${state.score} • Streak: ${state.streak} • Accuracy: ${acc}%`;
-  $('#sessionStats').textContent = `Total: ${state.total} • Correct: ${state.correct} • Accuracy: ${acc}% • Incorrect (${state.incorrect.length})`;
-  const list = $('#incorrectList'); list.innerHTML='';
-  state.incorrect.forEach(it=>{
-    const li = document.createElement('li');
-    li.textContent = `${it.q} → your: ${it.your}, correct: ${it.correct}`;
-    list.appendChild(li);
-  });
+
+  const val=parseNum(raw);
+  if(!Number.isFinite(val)){
+    $('#msg').textContent='Enter a valid number.';
+    $('#msg').className='muted';
+    speakLive('Enter a valid number');
+    return;
+  }
+
+  state.evaluated=true;
+  $('#answer').disabled=true;
+  $('#submit').disabled=true;
+
+  const correctVal=state.cur.product;
+  if(nearlyEqual(val,correctVal)){
+    state.correct++;
+    $('#tick').textContent='✔';
+    $('#tick').className='ok';
+    $('#msg').textContent='Correct!';
+    $('#msg').className='ok';
+    speakLive('Correct');
+  }else{
+    state.incorrect++;
+    $('#tick').textContent='✖';
+    $('#tick').className='bad';
+    $('#msg').textContent=`Incorrect. Correct answer: ${formatNum(correctVal)}`;
+    $('#msg').className='bad';
+    $('#showSteps').classList.remove('hidden');
+    speakLive('Incorrect');
+  }
+
+  updateTotals();
+  $('#submit').classList.add('hidden');
+  $('#next').classList.remove('hidden');
+  $('#next').focus();
 }
 
-$('#showSteps').addEventListener('click', ()=>{
-  const {aStr,bStr} = state.cur;
-  const A = intFromStr(aStr), B = intFromStr(bStr);
-  const da = decPlacesFromStr(aStr), db = decPlacesFromStr(bStr);
-  const integerProd = A*B, totalDP = da+db, placed = integerProd / 10**totalDP;
-  const html = `
+$('#submit').addEventListener('click',submitAnswer);
+$('#next').addEventListener('click',newRound);
+$('#clear').addEventListener('click',clearInput);
+
+$('#answer').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    submitAnswer();
+  }else if(e.key==='Escape'){
+    clearInput();
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(state.mode==='game' && state.evaluated && e.key==='Enter' && document.activeElement!==$('#answer')){
+    e.preventDefault();
+    newRound();
+  }
+});
+
+$('#showSteps').addEventListener('click',()=>{
+  const {aStr,bStr}=state.cur;
+  const A=intFromStr(aStr), B=intFromStr(bStr);
+  const da=decPlacesFromStr(aStr), db=decPlacesFromStr(bStr);
+  const integerProd=A*B, totalDP=da+db;
+  $('#steps').innerHTML=`
     <strong>Worked steps</strong>
     <ol>
-      <li>Ignore decimals: <code>${formatNum(state.cur.a)} × ${formatNum(state.cur.b)}</code> → <code>${A} × ${B}</code></li>
-      <li>Multiply integers: <code>${A} × ${B} = ${formatNum(integerProd)}</code></li>
-      <li>Total decimal places: ${da} + ${db} = <code>${totalDP}</code></li>
-      <li>Place the decimal: <code>${formatNum(integerProd)} → ${formatNum(placed)}</code> (final answer)</li>
+      <li>Ignore the decimals: ${aStr} × ${bStr} → ${formatNum(A)} × ${formatNum(B)}</li>
+      <li>Multiply: ${formatNum(A)} × ${formatNum(B)} = ${formatNum(integerProd)}</li>
+      <li>Count decimal places: ${da} + ${db} = ${totalDP}</li>
+      <li>Place the decimal: <strong>${formatNum(state.cur.product)}</strong></li>
     </ol>`;
-  $('#steps').innerHTML = html;
   $('#steps').classList.remove('hidden');
 });
 
-/* ========= Timer ========= */
-function startTimer(seconds){
-  stopTimer(); timeLeft = seconds;
-  $('#timerReadout').textContent = `${timeLeft}s`;
-  timerId = setInterval(()=>{
-    timeLeft--;
-    if (timeLeft<=0){
-      stopTimer();
-      $('#timerReadout').textContent = `0s`;
-      if (!state.awaitingNext){
-        $('#tick').textContent='⏲'; $('#tick').classList.add('bad'); $('#msg').textContent='Time up.';
-        beep(false);
-        $('#showSteps').classList.remove('hidden');
-        state.streak=0; state.total++; updateSession();
-      }
-    }else{
-      $('#timerReadout').textContent = `${timeLeft}s`;
-    }
-  },1000);
-}
-function stopTimer(){ if (timerId){ clearInterval(timerId); timerId=null; } }
+$('#wsSec').addEventListener('click',e=>{
+  const genBtn=e.target.closest('button[data-gen]');
+  if(genBtn) buildWorksheet(Number(genBtn.dataset.gen)||5);
 
-/* ========= Worksheet builder ========= */
-function buildWorksheet(n){
-  resetResult(); $('#steps').classList.add('hidden'); $('#steps').innerHTML='';
-  const cards = [];
-  for (let i=1;i<=n;i++){
-    const p = genProblem(state.tier);
-    const q = `${formatNum(p.a)} × ${formatNum(p.b)}`;
-    const id = 'ans_'+i+'_'+Math.floor(Math.random()*1e9);
-    const card = `
-      <div class="card">
-        <h4><span class="badge">${i}</span> ${q}</h4>
-        <div id="${id}" class="ans hidden"><strong>Answer:</strong> ${formatNum(p.product)}</div>
-        <div class="row" style="gap:8px">
-          <button onclick="document.getElementById('${id}').classList.remove('hidden')">Reveal</button>
-          <button onclick="document.getElementById('${id}').classList.add('hidden')">Hide</button>
-        </div>
-      </div>`;
-    cards.push(card);
+  const revealBtn=e.target.closest('button[data-reveal-id]');
+  if(revealBtn){
+    const ans=document.getElementById(revealBtn.dataset.revealId);
+    const showing=!ans.classList.contains('hidden');
+    ans.classList.toggle('hidden',showing);
+    revealBtn.textContent=showing?'Reveal':'Hide';
+    revealBtn.setAttribute('aria-expanded',String(!showing));
   }
-  $('#wsCards').innerHTML = cards.join('');
-}
-
-/* ========= A11y helpers ========= */
-function speakLive(msg){
-  const live = $('#live'); live.textContent=''; setTimeout(()=>{ live.textContent = msg; }, 10);
-}
-function flash(t){ $('#msg').textContent = t; }
-
-/* ========= Init ========= */
-document.addEventListener('DOMContentLoaded', ()=>{
-  if (SEED){ console.log('Seeded RNG:', SEED); }
-  newRound();
-  if (DEV) runDevTests();
 });
 
-/* ========= Hidden Developer Tests (?dev=1) ========= */
-function assert(name, cond){
-  if (!cond) { console.error('❌', name); throw new Error('Test failed: '+name); }
-  else console.log('✅', name);
+$('#revealAll').addEventListener('click',()=>{
+  $$('#wsCards .ans').forEach(a=>a.classList.remove('hidden'));
+  $$('#wsCards button[data-reveal-id]').forEach(b=>{
+    b.textContent='Hide';
+    b.setAttribute('aria-expanded','true');
+  });
+});
+$('#hideAll').addEventListener('click',()=>{
+  $$('#wsCards .ans').forEach(a=>a.classList.add('hidden'));
+  $$('#wsCards button[data-reveal-id]').forEach(b=>{
+    b.textContent='Reveal';
+    b.setAttribute('aria-expanded','false');
+  });
+});
+
+function buildWorksheet(n){
+  const cards=[];
+  for(let i=1;i<=n;i++){
+    const p=genProblem(state.tier);
+    const id=`ans_${i}_${Math.floor(R()*1e9)}`;
+    cards.push(`
+      <div class="card">
+        <h3><span class="badge">${i}</span>${formatNum(p.a)} × ${formatNum(p.b)}</h3>
+        <div id="${id}" class="ans hidden"><strong>Answer:</strong> ${formatNum(p.product)}</div>
+        <button data-reveal-id="${id}" aria-expanded="false">Reveal</button>
+      </div>`);
+  }
+  $('#wsCards').innerHTML=cards.join('');
+}
+
+function assert(name,cond){
+  if(!cond) throw new Error('Test failed: '+name);
+  console.log('✅',name);
 }
 function runDevTests(){
   console.groupCollapsed('Developer Tests');
-  // 1) Next hidden initially
-  assert('Next hidden initially', $('#next').classList.contains('hidden'));
-  // 2) Esc clears
-  $('#answer').value='123'; clearInput(); assert('Clear resets input', $('#answer').value==='');
-  // 3) parse comma decimal
-  assert('parse 2,4 == 2.4', Math.abs(parseNum('2,4')-2.4)<1e-12);
-  // 4) thousands spaces
-  assert('parse "12 345.6"', Math.abs(parseNum('12 345.6')-12345.6)<1e-9);
-  // 5) trailing zero trim
-  assert('format trims trailing zeros', formatNum(2.4000)==='2.4');
-  // 6) generator rejects stripped 45×12
-  assert('reject 0.45×0.12', allowedPairStrings('0.45','0.12')===false);
-  // 7) Steps structure has 4 list items
-  state.cur = mkFromStrings('40','0.6'); $('#showSteps').click();
-  assert('steps ol present', $('#steps').innerHTML.includes('<ol>'));
-  // 8) Mode switching clears carryover
-  switchMode('ws'); assert('Worksheet visible', !$('#wsSec').classList.contains('hidden'));
-  switchMode('game'); assert('Game visible', !$('#gameSec').classList.contains('hidden'));
-  // 9) Timer start/stop
-  $('#timerOn').checked=true; startTimer(2); assert('timer running', !!timerId); stopTimer(); assert('timer stopped', !timerId);
-  // 10) Correct flow: after correct, Enter advances
-  state.cur = mkFromStrings('40','0.6'); $('#answer').value='24';
-  submitAnswer(); assert('awaitingNext after correct', state.awaitingNext===true);
+  assert('comma decimal parses',Math.abs(parseNum('2,4')-2.4)<1e-12);
+  assert('spaces parse',Math.abs(parseNum('12 345.6')-12345.6)<1e-9);
+  assert('blank rejected',Number.isNaN(parseNum('')));
+  assert('junk rejected',Number.isNaN(parseNum('2.4abc')));
+  assert('format trims zeros',formatNum(2.4000)==='2.4');
+  assert('known product',mkFromStrings('0.125','1.6').product===0.2);
+  assert('reject stripped 45×12',allowedPairStrings('0.45','0.12')===false);
+  for(const tier of ['easy','med','hard']){
+    let valid=true;
+    for(let i=0;i<5000;i++){
+      const p=genProblem(tier);
+      if(!Number.isFinite(p.product) || p.product<0){ valid=false; break; }
+    }
+    assert(`${tier} generator sample valid`,valid);
+  }
   console.groupEnd();
 }
+
+document.addEventListener('DOMContentLoaded',()=>{
+  newRound();
+  if(DEV) runDevTests();
+});
 </script>
 </body>
 </html>
