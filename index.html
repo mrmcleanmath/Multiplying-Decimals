@@ -1,602 +1,248 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Multiplying Decimals — Mr. McLean Math</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Multiply Decimals × Single-Digit – Mr. McLean Math</title>
 <style>
 :root{
-  --bg:#0f1220;
-  --card:#161a2e;
-  --panel:#0c1130;
-  --ink:#e7eaf6;
-  --muted:#aab0cb;
-  --accent:#7c87ff;
-  --ok:#2ad67b;
-  --bad:#ff5c6c;
-  --border:rgba(255,255,255,.12);
-  --shadow:0 10px 30px rgba(0,0,0,.35);
-  --focus:0 0 0 3px rgba(124,135,255,.45);
+  --bg:#111;--card:#1b1b1b;--ink:#fafafa;--muted:#b9b9b9;--accent:#4cc9f0;
+  --good:#2bdc6e;--bad:#ff5a5a;--divider:#2a2a2a;--shadow:0 8px 24px rgba(0,0,0,.3);
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  min-height:100svh;
-  background:linear-gradient(160deg,#0b0e1a,#121633 60%,#0b0e1a);
-  color:var(--ink);
-  font:16px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-}
-.wrap{max-width:940px;margin:0 auto;padding:16px}
-header{padding-bottom:4px}
-h1{margin:0;font-size:clamp(24px,4vw,32px)}
-.app{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:18px;
-  box-shadow:var(--shadow);
-}
-.controls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  align-items:flex-end;
-  margin-bottom:16px;
-}
-.control-group{display:flex;flex-direction:column;gap:6px}
-.control-label{font-size:13px;color:var(--muted);font-weight:700}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-button{
-  appearance:none;
-  background:#0f1536;
-  color:var(--ink);
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:9px 13px;
-  font:inherit;
-  font-weight:700;
-  cursor:pointer;
-}
-button:hover{border-color:var(--accent)}
-button:focus-visible,input:focus-visible{outline:none;box-shadow:var(--focus)}
-button.primary{
-  background:linear-gradient(180deg,#6d79ff,#5661ff);
-  border-color:#5661ff;
-  color:#fff;
-}
-button.ghost{background:transparent}
-button:disabled{opacity:.55;cursor:default}
-.panel{
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:16px;
-  background:var(--panel);
-}
-.practice-top{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:center;
-  margin-bottom:12px;
-}
-.difficulty-tag{
-  color:#cfd4ff;
-  border:1px solid #2a2f6b;
-  border-radius:999px;
-  padding:3px 9px;
-  font-size:12px;
-  font-weight:700;
-}
-.totals{color:var(--muted);font-size:14px}
-.prompt{
-  font-size:clamp(30px,6vw,42px);
-  font-weight:800;
-  letter-spacing:.3px;
-  margin:18px 0;
-}
-.answer-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-input[type="text"]{
-  flex:1 1 220px;
-  min-width:0;
-  background:#0a0f29;
-  color:#fff;
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:11px 13px;
-  font-size:20px;
-}
-.result{
-  min-height:30px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  align-items:center;
-  margin-top:10px;
-  font-weight:700;
-}
-.ok{color:var(--ok)}
-.bad{color:var(--bad)}
-.muted{color:var(--muted)}
-.tip{color:var(--muted);font-size:13px;margin-top:12px}
-.steps{margin-top:12px;background:#0a0f2b}
-.steps ol{margin-bottom:0}
-.hidden{display:none !important}
-.worksheet-note{margin:0 0 12px;color:var(--muted)}
-.ws-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
-.spacer{flex:1}
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:12px;
-}
-.card{
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:12px;
-  background:#0b1033;
-}
-.card h3{margin:0 0 9px;font-size:20px}
-.badge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:26px;
-  height:26px;
-  padding:0 7px;
-  margin-right:5px;
-  border-radius:999px;
-  background:#13206b;
-  color:#cfe1ff;
-  font-size:12px;
-}
-.ans{margin:8px 0;font-weight:700}
-.footer{opacity:.75;margin:14px 2px 2px;font-size:13px}
-.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-@media (max-width:600px){
-  .wrap{padding:12px}
-  .app{padding:14px}
-  .controls{align-items:stretch}
-  .control-group{width:100%}
-  .control-group .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
-  #diffRow{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .control-group button{width:100%}
-  .practice-top{align-items:flex-start;flex-direction:column}
-  .answer-row button{flex:1}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:20px 14px 30px}
+header{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
+h1{margin:0;font-size:clamp(25px,3vw,34px)}
+.sub{margin-top:5px;color:var(--muted);font-size:14px}
+.tabs,.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font:inherit;background:#222;color:var(--ink);border:1px solid var(--divider);border-radius:12px;padding:10px 13px;font-weight:800;cursor:pointer}
+button.active,button.primary{background:#0f2830;border-color:#254b57}
+button:disabled{opacity:.5;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--divider);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+.question{font-size:clamp(32px,5vw,44px);font-weight:850;text-align:center;margin:22px 0 8px}
+.prompt{text-align:center;color:var(--muted);font-size:14px;margin-bottom:14px}
+.answer-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;align-items:center}
+input{font:inherit;font-size:20px;background:#0e0e0e;color:var(--ink);border:1px solid var(--divider);border-radius:11px;padding:11px 13px;width:min(320px,100%);text-align:center}
+.status{margin-top:14px;padding:11px 12px;border-radius:12px;border:1px solid var(--divider);background:#141414;text-align:center;min-height:52px}
+.status.ok{border-color:#1f693c;background:#143826}.status.no{border-color:#7a2626;background:#3b1a1a}
+.steps{display:none;margin-top:10px;padding:12px;border:1px dashed var(--divider);border-radius:12px;background:#0e0e0e;line-height:1.55}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.stat{padding:7px 11px;border:1px solid var(--divider);border-radius:999px;font-size:13px;font-weight:800}
+.worksheet{display:none}
+.ws-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+select{font:inherit;background:#0e0e0e;color:var(--ink);border:1px solid var(--divider);border-radius:10px;padding:9px 10px}
+.ws-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.wq{border:1px solid var(--divider);border-radius:14px;padding:12px;background:#121212}
+.wq .q{font-weight:800;font-size:18px}
+.wq .a{display:none;color:var(--good);font-weight:800;margin-top:8px;padding-top:8px;border-top:1px dashed var(--divider)}
+.wq .a.show{display:block}
+.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:14px}
+@media(max-width:650px){.ws-grid{grid-template-columns:1fr}.answer-row{align-items:stretch}.answer-row input{width:100%}}
+@media print{
+  body{background:#fff;color:#000}.wrap{max-width:none;padding:0}
+  header,#practiceCard,.no-print,.footer{display:none!important}
+  #worksheetCard{display:block!important;background:#fff;color:#000;border:0;box-shadow:none;padding:0}
+  .ws-grid{grid-template-columns:repeat(2,1fr)}
+  .wq{background:#fff;color:#000;border-color:#000}.wq .a{display:none!important}
 }
 </style>
 </head>
 <body>
-<header class="wrap">
-  <h1>Multiplying Decimals</h1>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Multiply Decimals × Single-Digit</h1>
+    <div class="sub">Multiply a one-decimal-place number by a single digit.</div>
+  </div>
+  <div class="tabs">
+    <button id="practiceTab" class="active" type="button">Practice</button>
+    <button id="worksheetTab" type="button">Worksheet</button>
+  </div>
 </header>
 
-<main class="wrap">
-  <div class="app">
-    <div class="controls" role="group" aria-label="Practice controls">
-      <div class="control-group">
-        <span class="control-label">Mode</span>
-        <div class="row">
-          <button id="modeGame" class="primary" aria-pressed="true">Practice</button>
-          <button id="modeWS" aria-pressed="false">Worksheet</button>
-        </div>
-      </div>
+<section id="practiceCard" class="card">
+  <div style="text-align:right"><button id="newBtn" type="button">New Question</button></div>
 
-      <div class="control-group">
-        <span class="control-label">Difficulty</span>
-        <div class="row" id="diffRow">
-          <button data-diff="easy" class="primary" aria-pressed="true">Foundation</button>
-          <button data-diff="med" aria-pressed="false">Core</button>
-          <button data-diff="hard" aria-pressed="false">Challenge</button>
-        </div>
-      </div>
-    </div>
+  <div id="question" class="question"></div>
+  <div class="prompt">Enter the exact answer. Use “.” or “,” for decimals. Do not add unnecessary trailing zeros.</div>
 
-    <section id="gameSec" aria-label="Practice mode">
-      <div class="panel">
-        <div class="practice-top">
-          <span class="difficulty-tag" id="tagDiff">Foundation</span>
-          <span class="totals" id="totals">Correct: 0 • Incorrect: 0</span>
-        </div>
-
-        <div class="prompt" id="prompt" aria-live="polite">—</div>
-
-        <div class="answer-row">
-          <input id="answer" type="text" inputmode="decimal" autocomplete="off"
-                 aria-label="Your answer" placeholder="Type your answer" />
-          <button id="submit" class="primary">Check</button>
-          <button id="next" class="hidden">Next</button>
-          <button id="clear" class="ghost">Clear</button>
-        </div>
-
-        <div class="result" id="result" aria-live="polite">
-          <span id="tick"></span>
-          <span id="msg"></span>
-          <button id="showSteps" class="ghost hidden">Show Steps</button>
-        </div>
-
-        <div id="steps" class="panel steps hidden"></div>
-
-        <div class="tip">Tip: Ignore the decimal points first, multiply, then place the decimal using the total number of decimal places.</div>
-      </div>
-    </section>
-
-    <section id="wsSec" class="hidden" aria-label="Worksheet mode">
-      <p class="worksheet-note">Multiply each pair of numbers.</p>
-      <div class="panel">
-        <div class="ws-toolbar">
-          <button class="primary" data-gen="5">Generate 5</button>
-          <button class="primary" data-gen="10">Generate 10</button>
-          <button class="primary" data-gen="15">Generate 15</button>
-          <span class="spacer"></span>
-          <button id="revealAll">Reveal All</button>
-          <button id="hideAll">Hide All</button>
-        </div>
-        <div id="wsCards" class="cards"></div>
-      </div>
-    </section>
-
-    <div class="footer">Created by Mr. McLean Math</div>
+  <div class="answer-row">
+    <input id="answerInput" type="text" inputmode="decimal" autocomplete="off" placeholder="Answer">
+    <button id="submitBtn" class="primary" type="button">Check</button>
+    <button id="nextBtn" type="button" disabled>Next</button>
+    <button id="clearBtn" type="button">Clear</button>
   </div>
-</main>
 
-<div class="sr" aria-live="assertive" id="live"></div>
+  <div id="status" class="status">Solve the problem above.</div>
+  <div id="steps" class="steps"></div>
+
+  <div class="stats">
+    <div class="stat">Correct: <span id="correct">0</span></div>
+    <div class="stat">Incorrect: <span id="incorrect">0</span></div>
+  </div>
+</section>
+
+<section id="worksheetCard" class="card worksheet">
+  <div class="ws-top">
+    <div>
+      <div style="font-size:19px;font-weight:900">Worksheet</div>
+      <div class="sub">Multiply each decimal by the given whole number.</div>
+    </div>
+    <div class="row no-print">
+      <label style="font-size:13px;font-weight:800">Questions
+        <select id="wsCount"><option>5</option><option>10</option><option>15</option></select>
+      </label>
+      <button id="genWs" class="primary" type="button">Generate</button>
+      <button id="revealAll" type="button" disabled>Reveal All</button>
+      <button id="hideAll" type="button" disabled>Hide All</button>
+      <button id="printBtn" type="button" disabled>Print</button>
+    </div>
+  </div>
+  <div id="wsList" class="ws-grid"></div>
+</section>
+
+<div class="footer">Created by Mr. McLean Math.</div>
+</div>
 
 <script>
-const $ = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
+(() => {
+"use strict";
+const $=id=>document.getElementById(id);
+const randInt=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
 
-const url = new URL(location.href);
-const SEED = url.searchParams.get('seed');
-const DEV = url.searchParams.get('dev') === '1';
+function genMultiplicand(){
+  const whole=randInt(10,99);
+  const tenth=randInt(1,9);
+  return Number(`${whole}.${tenth}`);
+}
+function genMultiplier(){return randInt(2,9)}
+function formatCanonical(n){
+  let s=Number(n).toString();
+  if(s.includes("e")||s.includes("E"))s=Number(n).toFixed(10).replace(/0+$/,"").replace(/\.$/,"");
+  let negative="";
+  if(s.startsWith("-")){negative="-";s=s.slice(1)}
+  let [i,d=""]=s.split(".");
+  i=i.replace(/\B(?=(\d{3})+(?!\d))/g," ");
+  return negative+i+(d?"."+d:"");
+}
+function multiplyCanonical(a,b){
+  const [whole,tenth]=a.toString().split(".");
+  const scaled=Number(whole)*10+Number(tenth);
+  return formatCanonical((scaled*b)/10);
+}
+function normalizeInputCanonical(raw){
+  raw=(raw||"").trim();
+  if(!raw)return {ok:false,neutral:true,reason:"Enter an answer."};
+  const hasDot=raw.includes("."),hasComma=raw.includes(",");
+  if(hasDot&&hasComma)return {ok:false,neutral:true,reason:"Use either '.' or ',' for decimals, not both."};
+  if(/^\+/.test(raw))return {ok:false,neutral:true,reason:"Do not use a '+' sign."};
+  if(/\s{2,}/.test(raw))return {ok:false,neutral:true,reason:"Check the spacing in the number."};
+  if((raw.match(/\./g)||[]).length>1||(raw.match(/,/g)||[]).length>1)return {ok:false,neutral:true,reason:"Use only one decimal separator."};
+  if(/[.,]$/.test(raw))return {ok:false,neutral:true,reason:"The number cannot end with a decimal separator."};
 
-function rng(seedStr){
-  let h = 2166136261 >>> 0;
-  for(let i=0;i<(seedStr || 'default').length;i++){
-    h ^= seedStr.charCodeAt(i);
-    h = Math.imul(h,16777619);
-  }
-  let a = h >>> 0;
-  return function(){
-    a |= 0;
-    a = a + 0x6D2B79F5 | 0;
-    let t = Math.imul(a ^ a >>> 15, 1 | a);
-    t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
-}
-const R = rng(SEED || (Date.now()+':'+Math.random()));
-function pick(arr){ return arr[Math.floor(R()*arr.length)]; }
+  const normalized=raw.replace(",",".");
+  const parts=normalized.split(".");
+  const intPart=parts[0],decPart=parts[1]||"";
+  if(!/^\d{1,3}( \d{3})*$/.test(intPart)&&!/^\d+$/.test(intPart))return {ok:false,neutral:true,reason:"Invalid number format."};
+  if(decPart&&!/^\d+$/.test(decPart))return {ok:false,neutral:true,reason:"Invalid decimal digits."};
+  if(decPart&&/0$/.test(decPart))return {ok:false,neutral:true,reason:"Do not add unnecessary trailing zeros."};
 
-function parseNum(str){
-  if(typeof str !== 'string') return NaN;
-  let s = str.trim();
-  if(!s) return NaN;
-  s = s.replace(/\s+/g,'');
-  if(s.includes(',') && s.includes('.')) s = s.replace(/,/g,'');
-  else if(s.includes(',')) s = s.replace(',', '.');
-  if(!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(s)) return NaN;
-  return Number(s);
+  const canonical=intPart+(decPart?"."+decPart:"");
+  return {ok:true,canonical};
 }
-function formatNum(n){
-  let s = String(Number(Number(n).toFixed(10)));
-  if(s.includes('.')) s = s.replace(/\.?0+$/,'');
-  let [int,dec] = s.split('.');
-  int = int.replace(/\B(?=(\d{3})+(?!\d))/g,' ');
-  return dec ? int+'.'+dec : int;
-}
-
-function decPlacesFromStr(s){
-  const i=s.indexOf('.');
-  return i===-1 ? 0 : s.length-i-1;
-}
-function intFromStr(s){ return parseInt(s.replace('.',''),10); }
-function mkFromStrings(aStr,bStr){
-  const da=decPlacesFromStr(aStr), db=decPlacesFromStr(bStr);
-  const A=intFromStr(aStr), B=intFromStr(bStr);
-  const product=(A*B)/(10**(da+db));
-  return {aStr,bStr,a:Number(aStr),b:Number(bStr),product,dp:da+db};
-}
-
-/* Original educational generator preserved. */
-const easy = {
-  tens:['10','20','30','40','50','60','70','80','90'],
-  tenths:['0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9'],
-  hundredths:['0.02','0.03','0.04','0.05','0.06','0.07','0.08','0.09'],
-  hundreds:['100','200','300','400','500','600','700','800','900'],
-  sd:['2','3','4','5','6','7','8','9'],
-  extras:['0.12','0.24']
-};
-const friendlySet = new Set([25,50,75,125,5,10,20,40,80,250]);
-
-function allowedPairStrings(aStr,bStr){
-  const A=intFromStr(aStr), B=intFromStr(bStr);
-  if(friendlySet.has(A) || friendlySet.has(B)) return true;
-  const twoPlusA=A>=10, twoPlusB=B>=10;
-  if(twoPlusA && twoPlusB) return A<=12 && B<=12;
-  return true;
-}
-function easyGen(){
-  const buckets=[
-    () => mkFromStrings(pick(easy.tens),pick(easy.tenths)),
-    () => mkFromStrings(pick(easy.hundredths),pick(easy.hundreds)),
-    () => mkFromStrings(pick(easy.sd),pick([...easy.tenths,...easy.extras])),
-    () => mkFromStrings(pick(easy.tenths),pick(easy.tenths))
+function buildSteps(a,b,ans){
+  const [whole,tenth]=a.toString().split(".");
+  const scaled=Number(whole)*10+Number(tenth);
+  const prod=scaled*b;
+  return [
+    `Treat ${formatCanonical(a)} as ${scaled} by moving the decimal one place right.`,
+    `${scaled} × ${b} = ${formatCanonical(prod)}`,
+    `Move the decimal one place back: ${formatCanonical(prod/10)}`,
+    `Answer: ${ans}`
   ];
-  return pick(buckets)();
-}
-function medGen(){
-  const buckets=[
-    () => mkFromStrings(pick(['0.12','0.14','0.15','0.16','0.18','0.25']),pick(['20','30','40','50','60'])),
-    () => mkFromStrings(pick(['30','40','60','80','90']),pick(['0.06','0.07','0.08','0.09'])),
-    () => mkFromStrings(pick(['0.04','0.06','0.08']),pick(['200','400','600','800'])),
-    () => mkFromStrings(pick(['0.2','0.3','0.4','0.5']),pick(['2','3','4','5','6','7','8','9','10','11','12']))
-  ];
-  return pick(buckets)();
-}
-function hardGen(){
-  const buckets=[
-    () => mkFromStrings(pick(['0.75','0.6','0.9']),pick(['0.6','0.8','0.4','0.5'])),
-    () => mkFromStrings(pick(['0.125','0.25','0.5']),pick(['0.8','1.6','2.0'])),
-    () => mkFromStrings(pick(['0.35','0.45']),pick(['0.2','0.3','0.4'])),
-    () => mkFromStrings(pick(['0.25','0.125','0.75']),pick(['40','80','0.4','1.6','2.4']))
-  ];
-  return pick(buckets)();
-}
-function genByTier(t){
-  if(t==='easy') return easyGen();
-  if(t==='med') return medGen();
-  return hardGen();
-}
-function genProblem(tier){
-  for(let tries=0;tries<100;tries++){
-    const p=genByTier(tier);
-    if(allowedPairStrings(p.aStr,p.bStr)) return p;
-  }
-  return mkFromStrings('40','0.6');
 }
 
-const state={
-  mode:'game',
-  tier:'easy',
-  cur:null,
-  correct:0,
-  incorrect:0,
-  evaluated:false
-};
+let state={a:null,b:null,ans:"",evaluated:false,correct:0,incorrect:0};
 
-function tierLabel(t){
-  return ({easy:'Foundation',med:'Core',hard:'Challenge'})[t] || 'Foundation';
+function newProblem(){
+  state.a=genMultiplicand();state.b=genMultiplier();state.ans=multiplyCanonical(state.a,state.b);state.evaluated=false;
+  $("question").textContent=`${formatCanonical(state.a)} × ${state.b} = ?`;
+  $("answerInput").value="";$("answerInput").disabled=false;$("submitBtn").disabled=false;$("nextBtn").disabled=true;
+  $("status").className="status";$("status").textContent="Solve the problem above.";
+  $("steps").style.display="none";$("steps").innerHTML="";
+  $("answerInput").focus();
 }
-
-function switchMode(mode){
-  state.mode=mode;
-  const isGame=mode==='game';
-  $('#modeGame').classList.toggle('primary',isGame);
-  $('#modeWS').classList.toggle('primary',!isGame);
-  $('#modeGame').setAttribute('aria-pressed',String(isGame));
-  $('#modeWS').setAttribute('aria-pressed',String(!isGame));
-  $('#gameSec').classList.toggle('hidden',!isGame);
-  $('#wsSec').classList.toggle('hidden',isGame);
-
-  if(isGame){
-    newRound();
-  }else{
-    $('#answer').blur();
-    if(!$('#wsCards').children.length) buildWorksheet(10);
-  }
-}
-
-$('#modeGame').addEventListener('click',()=>switchMode('game'));
-$('#modeWS').addEventListener('click',()=>switchMode('ws'));
-
-$('#diffRow').addEventListener('click',e=>{
-  const btn=e.target.closest('button[data-diff]');
-  if(!btn) return;
-  $$('#diffRow button').forEach(b=>{
-    b.classList.remove('primary');
-    b.setAttribute('aria-pressed','false');
-  });
-  btn.classList.add('primary');
-  btn.setAttribute('aria-pressed','true');
-  state.tier=btn.dataset.diff;
-  $('#tagDiff').textContent=tierLabel(state.tier);
-
-  if(state.mode==='game') newRound();
-  else buildWorksheet(10);
-});
-
-function newRound(){
-  state.cur=genProblem(state.tier);
-  state.evaluated=false;
-  $('#prompt').textContent=`${formatNum(state.cur.a)} × ${formatNum(state.cur.b)}`;
-  $('#answer').value='';
-  $('#answer').disabled=false;
-  $('#submit').disabled=false;
-  $('#submit').classList.remove('hidden');
-  $('#next').classList.add('hidden');
-  resetResult();
-  $('#answer').focus();
-}
-function resetResult(){
-  $('#tick').textContent='';
-  $('#tick').className='';
-  $('#msg').textContent='';
-  $('#msg').className='';
-  $('#showSteps').classList.add('hidden');
-  $('#steps').classList.add('hidden');
-  $('#steps').innerHTML='';
-}
-function clearInput(){
-  if(state.evaluated) return;
-  $('#answer').value='';
-  $('#answer').focus();
-}
-function updateTotals(){
-  $('#totals').textContent=`Correct: ${state.correct} • Incorrect: ${state.incorrect}`;
-}
-function speakLive(msg){
-  const live=$('#live');
-  live.textContent='';
-  setTimeout(()=>{live.textContent=msg;},10);
-}
-function nearlyEqual(a,b){
-  return Math.abs(a-b)<=Math.max(1e-10,Math.abs(b)*1e-10);
-}
-
-function submitAnswer(){
-  if(state.evaluated) return;
-
-  const raw=$('#answer').value.trim();
-  if(!raw){
-    $('#msg').textContent='Enter an answer.';
-    $('#msg').className='muted';
-    speakLive('Enter an answer');
-    return;
-  }
-
-  const val=parseNum(raw);
-  if(!Number.isFinite(val)){
-    $('#msg').textContent='Enter a valid number.';
-    $('#msg').className='muted';
-    speakLive('Enter a valid number');
+function checkAnswer(){
+  if(state.evaluated)return;
+  const valid=normalizeInputCanonical($("answerInput").value);
+  if(!valid.ok){
+    $("status").className="status";
+    $("status").textContent=valid.reason;
     return;
   }
 
   state.evaluated=true;
-  $('#answer').disabled=true;
-  $('#submit').disabled=true;
+  $("answerInput").disabled=true;$("submitBtn").disabled=true;$("nextBtn").disabled=false;
+  $("steps").innerHTML=buildSteps(state.a,state.b,state.ans).join("<br>");
 
-  const correctVal=state.cur.product;
-  if(nearlyEqual(val,correctVal)){
-    state.correct++;
-    $('#tick').textContent='✔';
-    $('#tick').className='ok';
-    $('#msg').textContent='Correct!';
-    $('#msg').className='ok';
-    speakLive('Correct');
+  if(valid.canonical===state.ans){
+    state.correct++;$("correct").textContent=state.correct;
+    $("status").className="status ok";$("status").textContent="Correct!";
   }else{
-    state.incorrect++;
-    $('#tick').textContent='✖';
-    $('#tick').className='bad';
-    $('#msg').textContent=`Incorrect. Correct answer: ${formatNum(correctVal)}`;
-    $('#msg').className='bad';
-    $('#showSteps').classList.remove('hidden');
-    speakLive('Incorrect');
+    state.incorrect++;$("incorrect").textContent=state.incorrect;
+    $("status").className="status no";$("status").textContent=`Incorrect. Correct answer: ${state.ans}`;
+    $("steps").style.display="block";
   }
-
-  updateTotals();
-  $('#submit').classList.add('hidden');
-  $('#next').classList.remove('hidden');
-  $('#next').focus();
+}
+function clearAnswer(){
+  if(state.evaluated)return;
+  $("answerInput").value="";$("answerInput").focus();
 }
 
-$('#submit').addEventListener('click',submitAnswer);
-$('#next').addEventListener('click',newRound);
-$('#clear').addEventListener('click',clearInput);
-
-$('#answer').addEventListener('keydown',e=>{
-  if(e.key==='Enter'){
-    e.preventDefault();
-    submitAnswer();
-  }else if(e.key==='Escape'){
-    clearInput();
-  }
-});
-document.addEventListener('keydown',e=>{
-  if(state.mode==='game' && state.evaluated && e.key==='Enter' && document.activeElement!==$('#answer')){
-    e.preventDefault();
-    newRound();
-  }
+$("newBtn").addEventListener("click",newProblem);
+$("submitBtn").addEventListener("click",checkAnswer);
+$("nextBtn").addEventListener("click",newProblem);
+$("clearBtn").addEventListener("click",clearAnswer);
+$("answerInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){e.preventDefault();state.evaluated?newProblem():checkAnswer()}
+  else if(e.key==="Escape"){e.preventDefault();clearAnswer()}
 });
 
-$('#showSteps').addEventListener('click',()=>{
-  const {aStr,bStr}=state.cur;
-  const A=intFromStr(aStr), B=intFromStr(bStr);
-  const da=decPlacesFromStr(aStr), db=decPlacesFromStr(bStr);
-  const integerProd=A*B, totalDP=da+db;
-  $('#steps').innerHTML=`
-    <strong>Worked steps</strong>
-    <ol>
-      <li>Ignore the decimals: ${aStr} × ${bStr} → ${formatNum(A)} × ${formatNum(B)}</li>
-      <li>Multiply: ${formatNum(A)} × ${formatNum(B)} = ${formatNum(integerProd)}</li>
-      <li>Count decimal places: ${da} + ${db} = ${totalDP}</li>
-      <li>Place the decimal: <strong>${formatNum(state.cur.product)}</strong></li>
-    </ol>`;
-  $('#steps').classList.remove('hidden');
-});
-
-$('#wsSec').addEventListener('click',e=>{
-  const genBtn=e.target.closest('button[data-gen]');
-  if(genBtn) buildWorksheet(Number(genBtn.dataset.gen)||5);
-
-  const revealBtn=e.target.closest('button[data-reveal-id]');
-  if(revealBtn){
-    const ans=document.getElementById(revealBtn.dataset.revealId);
-    const showing=!ans.classList.contains('hidden');
-    ans.classList.toggle('hidden',showing);
-    revealBtn.textContent=showing?'Reveal':'Hide';
-    revealBtn.setAttribute('aria-expanded',String(!showing));
-  }
-});
-
-$('#revealAll').addEventListener('click',()=>{
-  $$('#wsCards .ans').forEach(a=>a.classList.remove('hidden'));
-  $$('#wsCards button[data-reveal-id]').forEach(b=>{
-    b.textContent='Hide';
-    b.setAttribute('aria-expanded','true');
-  });
-});
-$('#hideAll').addEventListener('click',()=>{
-  $$('#wsCards .ans').forEach(a=>a.classList.add('hidden'));
-  $$('#wsCards button[data-reveal-id]').forEach(b=>{
-    b.textContent='Reveal';
-    b.setAttribute('aria-expanded','false');
-  });
-});
-
-function buildWorksheet(n){
-  const cards=[];
-  for(let i=1;i<=n;i++){
-    const p=genProblem(state.tier);
-    const id=`ans_${i}_${Math.floor(R()*1e9)}`;
-    cards.push(`
-      <div class="card">
-        <h3><span class="badge">${i}</span>${formatNum(p.a)} × ${formatNum(p.b)}</h3>
-        <div id="${id}" class="ans hidden"><strong>Answer:</strong> ${formatNum(p.product)}</div>
-        <button data-reveal-id="${id}" aria-expanded="false">Reveal</button>
-      </div>`);
-  }
-  $('#wsCards').innerHTML=cards.join('');
+function showPractice(){
+  $("practiceTab").classList.add("active");$("worksheetTab").classList.remove("active");
+  $("practiceCard").style.display="block";$("worksheetCard").style.display="none";
 }
-
-function assert(name,cond){
-  if(!cond) throw new Error('Test failed: '+name);
-  console.log('✅',name);
+function showWorksheet(){
+  $("worksheetTab").classList.add("active");$("practiceTab").classList.remove("active");
+  $("practiceCard").style.display="none";$("worksheetCard").style.display="block";
 }
-function runDevTests(){
-  console.groupCollapsed('Developer Tests');
-  assert('comma decimal parses',Math.abs(parseNum('2,4')-2.4)<1e-12);
-  assert('spaces parse',Math.abs(parseNum('12 345.6')-12345.6)<1e-9);
-  assert('blank rejected',Number.isNaN(parseNum('')));
-  assert('junk rejected',Number.isNaN(parseNum('2.4abc')));
-  assert('format trims zeros',formatNum(2.4000)==='2.4');
-  assert('known product',mkFromStrings('0.125','1.6').product===0.2);
-  assert('reject stripped 45×12',allowedPairStrings('0.45','0.12')===false);
-  for(const tier of ['easy','med','hard']){
-    let valid=true;
-    for(let i=0;i<5000;i++){
-      const p=genProblem(tier);
-      if(!Number.isFinite(p.product) || p.product<0){ valid=false; break; }
-    }
-    assert(`${tier} generator sample valid`,valid);
-  }
-  console.groupEnd();
-}
+$("practiceTab").addEventListener("click",showPractice);
+$("worksheetTab").addEventListener("click",showWorksheet);
 
-document.addEventListener('DOMContentLoaded',()=>{
-  newRound();
-  if(DEV) runDevTests();
-});
+function wsItem(i){
+  const a=genMultiplicand(),b=genMultiplier(),ans=multiplyCanonical(a,b);
+  const card=document.createElement("div");card.className="wq";
+  const q=document.createElement("div");q.className="q";q.textContent=`${i}. ${formatCanonical(a)} × ${b} =`;
+  const aEl=document.createElement("div");aEl.className="a";aEl.textContent=`Answer: ${ans}`;
+  const btn=document.createElement("button");btn.type="button";btn.className="no-print";btn.textContent="Reveal";
+  btn.addEventListener("click",()=>{aEl.classList.toggle("show");btn.textContent=aEl.classList.contains("show")?"Hide":"Reveal"});
+  card.append(q,aEl,btn);return card;
+}
+function generateWorksheet(){
+  const n=Number($("wsCount").value),list=$("wsList");list.innerHTML="";
+  for(let i=1;i<=n;i++)list.appendChild(wsItem(i));
+  $("revealAll").disabled=$("hideAll").disabled=$("printBtn").disabled=false;
+}
+$("genWs").addEventListener("click",generateWorksheet);
+$("revealAll").addEventListener("click",()=>document.querySelectorAll(".wq .a").forEach(x=>x.classList.add("show")));
+$("hideAll").addEventListener("click",()=>document.querySelectorAll(".wq .a").forEach(x=>x.classList.remove("show")));
+$("printBtn").addEventListener("click",()=>window.print());
+
+window.__MMM_TEST__={genMultiplicand,genMultiplier,multiplyCanonical,normalizeInputCanonical};
+newProblem();
+})();
 </script>
 </body>
 </html>
